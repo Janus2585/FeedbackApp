@@ -18,8 +18,6 @@ app.get('/', (req, res) => {
 });
 */
 
-//clientID 526437590443-osfhb9p47bt1b8jjmbi55q3nps1h2b64.apps.googleusercontent.com
-//clientSecret Qx4zEnDATzHkYbyQE48Jc21K
 passport.use(new GoogleStrategy());
 //dynamically determine which port to listen to to make it compatible with Heroku
 //If there is an env variable assigned by Heroku, then assign that to PORT.
