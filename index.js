@@ -15,7 +15,7 @@ const app = express();
 //res: object representing the outgoing response
 //res.send({hi: 'there'}): immediately send some JSON back to whatever made this request
 app.get('/', (req, res) => {
-	res.send({ hi: 'there'});
+	res.send({ subsequentDeployTest: 'success'});
 });
 
 //dynamically determine which port to listen to to make it compatible with Heroku
