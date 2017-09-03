@@ -23,6 +23,13 @@ module.exports = app => {
 		})
 	);
 
+	app.get('/api/logout', (req,res) => {
+		//kills the cookie of the logged in user
+		req.logout();
+		//prove the user is not logged in. Should return blank screen
+		res.send(req.user);
+	});
+
 	app.get(
 		"/auth/google/callback", 
 		passport.authenticate('google'));
