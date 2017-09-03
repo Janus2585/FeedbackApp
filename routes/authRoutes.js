@@ -14,18 +14,24 @@ app.get('/', (req, res) => {
 });
 */
 module.exports = app => {
+	//adding a single route handler for google OAuth
+	app.get(
+		"/auth/google",
+		passport.authenticate("google", {
+			//requesting the user's profile and email address from google
+			scope: ["profile", "email"]
+		})
+	);
 
+	app.get(
+		"/auth/google/callback", 
+		passport.authenticate('google'));
 
-//adding a single route handler for google OAuth
-app.get(
-	"/auth/google",
-	passport.authenticate("google", {
-		//requesting the user's profile and email address from google
-		scope: ["profile", "email"]
-	})
-);
+	//arrow function is automatically called whenver a get request is made to the /api/current_user route
+	//req is the incoming request, res is the outgoing response
+	//returns users who are logged in
+	app.get('/api/current_user', (req, res) => {
+		res.send(req.user);
+	});
 
-app.get(
-	"/auth/google/callback", 
-	passport.authenticate('google'));
 };
