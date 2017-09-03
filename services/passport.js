@@ -15,7 +15,16 @@ passport.serializeUser((user, done) => {
 	//profile.id is the googleID
 	//the user.id ("$oid" key) is used here because if we implement other authentication systems (Facebook, LinkedIn, etc.) the user may not always have a googleID
 	done(null, user.id);
-})
+});
+
+//search user database and find the user, then call done() with that user
+passport.deserializeUser((id, done) => {
+	//All references to the MongoDB database are asynchronous, including User.findById()
+	//Thus it returns a promise after the user id is found
+	User.findById(id).then(user => {
+			done(null, user);
+		});
+});
 
 passport.use(
 	new GoogleStrategy(
