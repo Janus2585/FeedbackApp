@@ -1,6 +1,11 @@
 //get express.js framework
 const express = require("express");
-require('./services/passport')
+const mongoose = require('mongoose');
+const keys = require('./config/keys');
+require('./models/user');
+require('./services/passport');
+
+mongoose.connect(keys.mongoURI);
 
 
 //app is used to set up configuration to route request to different handlers
