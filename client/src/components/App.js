@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route} from 'react-router-dom';
 
-//dummy components for testing
-const Header = () => <h2>Header</h2>;
+
+import Header from './Header';
 const Dashboard = () => <h2>Dashboard</h2>;
 const SurveyNew = () => <h2>SurveyNew</h2>;
 const Landing = () => <h2>Landing</h2>;
-// end of dummy components
+
 
 const App = () => {
 	return (
@@ -15,7 +15,7 @@ const App = () => {
 		//exact means the path must be exactly the string in path="" to show the component
 		//By default, the component will be shown if the string in path="" is included in the path
 		//Header must always be visible
-		<div>
+		<div className="container">
 			<BrowserRouter>
 				<div>
 					<Header />
