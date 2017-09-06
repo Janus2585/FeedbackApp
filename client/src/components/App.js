@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route} from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
 import Header from './Header';
 const Dashboard = () => <h2>Dashboard</h2>;
@@ -10,8 +11,9 @@ const Landing = () => <h2>Landing</h2>;
 //the component is class based to get access to a lifecycle method that is called when it is rendered
 class App extends Component {
 	//lifecycle method to fetch the current user
+	//this is the prefered location to make any initial AJAX requests
 	componentDidMount() {
-		
+		this.props.fetchUser();
 	}
 
 	render() {
@@ -27,8 +29,7 @@ class App extends Component {
 						<Header />
 						<Route exact path="/" component={Landing} />
 						<Route exact path= "/surveys" component={Dashboard} />
-						<Route path="/surveys/new" component={SurveyNew} />
-						
+						<Route path="/surveys/new" component={SurveyNew} />	
 					</div>
 				</BrowserRouter>
 			</div>
@@ -36,4 +37,5 @@ class App extends Component {
 	}
 };
 
-export default App;
+//once the actions are passed in, they are assigned to App as props
+export default connect(null, actions)(App);
