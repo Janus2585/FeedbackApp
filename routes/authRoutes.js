@@ -27,12 +27,16 @@ module.exports = app => {
 		//kills the cookie of the logged in user
 		req.logout();
 		//prove the user is not logged in. Should return blank screen
-		res.send(req.user);
+		res.redirect('/');
 	});
 
 	app.get(
 		"/auth/google/callback", 
-		passport.authenticate('google'));
+		passport.authenticate('google'),
+		(req, res) => {
+			res.redirect('/surveys');	
+		}
+	);
 
 	//arrow function is automatically called whenver a get request is made to the /api/current_user route
 	//req is the incoming request, res is the outgoing response
