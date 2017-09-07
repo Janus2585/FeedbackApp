@@ -1,13 +1,13 @@
 const keys = require('../config/keys');
-const stripe = require('stripe')(keys.stripeSecretKey
-);
+const stripe = require('stripe')(keys.stripeSecretKey);
+const requireLogin = require('../middlewares/requireLogin');
 
 
 module.exports = app => {
-	app.post('/api/stripe', async (req, res) => {
+	app.post('/api/stripe', requireLogin, async (req, res) => {//requireLogin is not invoked here because we do not want to run requireLogin the instant express loads. Here it is just a reference to the function that will run whenever an app.post is made
 		//handle token, reach out to Stripe API
 		const charge = await stripe.charges.create({
-			amount: 500,
+			amount: 500, //500 cents
 			currency: 'usd',
 			description:'5 dollars for 5 credits',
 			source: req.body.id //obtained from stripe.js
