@@ -29,6 +29,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require('./routes/authRoutes')(app);
+require('./routes/billingRoutes')(app);
 
 //dynamically determine which port to listen to to make it compatible with Heroku
 //If there is an env variable assigned by Heroku, then assign that to PORT.
