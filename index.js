@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('./config/keys');
+//bodyParser is middleware. 
+const bodyParser = require('body-parser');
 require('./models/user');
 require('./services/passport');
 
@@ -15,6 +17,8 @@ mongoose.connect(keys.mongoURI);
 //app is used to set up configuration to route request to different handlers
 const app = express();
 
+//Middleware is wired to express using the app.use call
+app.use(bodyParser.json());
 //enable the use of cookies
 app.use(
 	cookieSession({
