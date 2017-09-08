@@ -33,8 +33,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./routes/authRoutes')(app);
+require('./routes/authRoutes')(app);//call route function with the app object
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 //this section of code should only run when in production, when the app is in Heroku
 if (process.env.NODE_ENV === 'production') {
