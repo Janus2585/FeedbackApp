@@ -9,6 +9,7 @@ const keys = require('./config/keys');
 //bodyParser is middleware. 
 const bodyParser = require('body-parser');
 require('./models/user');
+require('./models/survey')
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
