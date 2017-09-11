@@ -26,16 +26,13 @@ class App extends Component {
 			//exact means the path must be exactly the string in path="" to show the component
 			//By default, the component will be shown if the string in path="" is included in the path
 			//Header must always be visible
+		<BrowserRouter>
 			<div className="container">
-				<BrowserRouter>
-					<div>
-						<Header />
-						<Route exact path="/" component={Landing} />
-						<Route exact path= "/surveys" component={Dashboard} />
-						<Route path="/surveys/new" component={SurveyNew} />	
-					</div>
-				</BrowserRouter>
+				<Header />
+				<Route exact path="/" component={Landing} />
+				<Route exact path= "/surveys" component={Dashboard} />						<Route path="/surveys/new" component={SurveyNew} />	
 			</div>
+		</BrowserRouter>
 		);
 	}
 };
