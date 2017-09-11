@@ -6,8 +6,9 @@ import * as actions from '../actions';
 import Header from './Header';
 import Landing from './Landing';
 
-const Dashboard = () => <h2>Dashboard</h2>;
-const SurveyNew = () => <h2>SurveyNew</h2>;
+import Dashboard from './Dashboard';
+
+import SurveyNew from './surveys/SurveyNew';
 
 
 //the component is class based to get access to a lifecycle method that is called when it is rendered
