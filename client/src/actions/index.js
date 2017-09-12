@@ -16,3 +16,7 @@ export const handleToken = (token) => async dispatch => {
 	//after the request is complete, we will dispatch an action
 	dispatch({ type: FETCH_USER, payload: res.data })
 };
+
+export const submitSurvey = values => {
+	return { type: 'submit_survey '};
+};

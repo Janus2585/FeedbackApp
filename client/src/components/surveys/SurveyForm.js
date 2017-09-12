@@ -11,7 +11,7 @@ class SurveyForm extends Component {
 				<Field key="title" label="Survey Title" type="text" name="title" component={SurveyField} />
 				<Field key="subject" label="Subject Line" type="text" name="subject" component={SurveyField} />
 				<Field key="body" label="Email Body" type="text" name="body" component={SurveyField} />
-				<Field key="emails" label="Recipient List" type="text" name="emails" component={SurveyField} />
+				<Field key="recipients" label="Recipient List" type="text" name="recipients" component={SurveyField} />
 			</div>
 		);
 	}
@@ -38,7 +38,7 @@ function validate(values) {
 	//if errors had any values, the submission process is stopped until it is fixed
 	const errors = {};
 
-	errors.emails = validateEmails(values.emails || ''); // if values.emails is undifined, the app won't crash because of the  || ''. This fixes the crash on startup
+	errors.recipients = validateEmails(values.recipients || ''); // if values.recipients is undefined, the app won't crash because of the  || ''. This fixes the crash on startup
 
 	if (!values.title) {
 		errors.title = "You must provide a title."
@@ -49,8 +49,8 @@ function validate(values) {
 	if (!values.body) {
 		errors.body = "You must provide an email body."
 	}
-	if (!values.emails) {
-		errors.emails = "You must provide a list of recipients."
+	if (!values.recipients) {
+		errors.recipients = "You must provide a list of recipients."
 	}
 
 	
