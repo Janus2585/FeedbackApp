@@ -19,7 +19,7 @@ class SurveyForm extends Component {
 	render() {
 		return (
 			<div>
-				<form onSubmit={this.props.handleSubmit(values => console.log(values))}>
+				<form onSubmit={this.props.handleSubmit(this.props.onSurveySubmit)}>
 					{this.renderFields()}
 					<Link to="/surveys" className="red btn-flat white-text">
 						Cancel
@@ -39,7 +39,7 @@ function validate(values) {
 	const errors = {};
 
 	errors.emails = validateEmails(values.emails || ''); // if values.emails is undifined, the app won't crash because of the  || ''. This fixes the crash on startup
-	
+
 	if (!values.title) {
 		errors.title = "You must provide a title."
 	}
@@ -59,5 +59,6 @@ function validate(values) {
 
 export default reduxForm({
 	validate, //same as validate: validate;
-	form: "surveyForm"
+	form: "surveyForm", //tells redux-form what to name the form values in the form reducer
+	destroyOnUnmount: false //saves the form values between pages
 })(SurveyForm);
