@@ -11,6 +11,22 @@ module.exports = app => {
 		res.send('Thanks for your feedback!')
 	});
 
+	//we only want to store unique responses to each survey. Each user gets 1 vote.
+	//first use .map to extract the path from the URL 
+	//extract the surveyID and choice
+	//return survey ID, email, and choice, disregarding records without surveyID and choice
+	
+
+	//remove records that are undefined
+
+	//remove records with dupicate email and surveyId
+
+
+	app.post('/api/surveys/webhooks', (req, res) => {
+		console.log(req.body);
+		res.send({});
+	});
+
 	app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => { //check if user is logged in and has credits before proceeding
 		const { title, subject, body, recipients } = req.body;
 
