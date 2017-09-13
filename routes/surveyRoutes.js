@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const Path = require('path-parser');
+const { URL } = require('url');
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 const requireCredits = require('../middlewares/requireCredits');
@@ -6,25 +9,58 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
 const Survey = mongoose.model('surveys');
 
+//this fixes the mongoose mpromise deprecation warning
+mongoose.Promise = global.Promise;
+
 module.exports = app => {
-	app.get('/api/surveys/thanks', (req, res) => {
-		res.send('Thanks for your feedback!')
+	app.get('/api/surveys/:surveyId/:choice', (req, res) => {
+		res.send('Thanks for your feedback!');
 	});
+
+	
 
 	//we only want to store unique responses to each survey. Each user gets 1 vote.
 	//first use .map to extract the path from the URL 
 	//extract the surveyID and choice
 	//return survey ID, email, and choice, disregarding records without surveyID and choice
-	
-
 	//remove records that are undefined
-
 	//remove records with dupicate email and surveyId
+	
 
 
 	app.post('/api/surveys/webhooks', (req, res) => {
-		console.log(req.body);
-		res.send({});
+	    const p = new Path('/api/surveys/:surveyId/:choice');
+
+	    console.log(req.body);
+
+	    _.chain(req.body)
+	      .map(({ email, url }) => {
+	        const match = p.test(new URL(url).pathname);
+	        if (match) {
+	          return { email, surveyId: match.surveyId, choice: match.choice };
+	        }
+	      })
+	      .compact()
+	      .uniqBy('email', 'surveyId')
+	      .each(({ surveyId, email, choice }) => {
+	        Survey.updateOne(
+	          {
+	            _id: surveyId,
+	            recipients: {
+	              $elemMatch: { email: email, responded: false }
+	            }
+	          },
+	          {
+	            $inc: { [choice]: 1 },
+	            $set: { 'recipients.$.responded': true },
+	            lastResponded: new Date()
+	          }
+	        ).exec();
+	      })
+	      .value();
+
+	    res.send({});
+
 	});
 
 	app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => { //check if user is logged in and has credits before proceeding
