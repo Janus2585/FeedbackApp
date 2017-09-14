@@ -29,6 +29,11 @@ module.exports = app => {
 
 
 	app.post('/api/surveys/webhooks', (req, res) => {
+	   
+	    console.log(req.body);
+	    res.send({});
+	});
+		/*
 	    const p = new Path('/api/surveys/:surveyId/:choice');
 
 	    console.log(req.body);
@@ -60,8 +65,9 @@ module.exports = app => {
 	      .value();
 
 	    res.send({});
+	  	*/
 
-	});
+	
 
 	app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => { //check if user is logged in and has credits before proceeding
 		const { title, subject, body, recipients } = req.body;
