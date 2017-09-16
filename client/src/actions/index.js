@@ -14,12 +14,12 @@ export const handleToken = (token) => async dispatch => {
 	const res = await axios.post('/api/stripe', token);
 
 	//after the request is complete, we will dispatch an action
-	dispatch({ type: FETCH_USER, payload: res.data })
+	dispatch({ type: FETCH_USER, payload: res.data });
 };
 
 export const submitSurvey = (values, history) => async dispatch => {
 	const res = await axios.post('/api/surveys', values);
 
-	history.push('/surveys')
+	history.push('/surveys');
 	dispatch({ type: FETCH_USER, payload: res.data });
 };

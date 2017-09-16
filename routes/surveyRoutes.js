@@ -19,54 +19,21 @@ module.exports = app => {
 
 	
 
-	//we only want to store unique responses to each survey. Each user gets 1 vote.
-	//first use .map to extract the path from the URL 
-	//extract the surveyID and choice
-	//return survey ID, email, and choice, disregarding records without surveyID and choice
-	//remove records that are undefined
-	//remove records with dupicate email and surveyId
-	
-
-
 	app.post('/api/surveys/webhooks', (req, res) => {
-	   
-	    console.log(req.body);
-	    res.send({});
+		//we only want to store unique responses to each survey. Each user gets 1 vote.
+		//first use .map to extract the path from the URL 
+		//extract the surveyID and choice
+		//return survey ID, email, and choice, disregarding records without surveyID and choice
+		//remove records that are undefined
+		//remove records with dupicate email and surveyId
+		const events = _.map(req.body, (event) => { // for every element in req.body
+			const pathname = new URL(event.url).pathname //extract just the route
+			const p = new Path('/api/surveys/:surveyId/:choice'); 
+			console.log(p.test(pathname));
+		})
+
+
 	});
-		/*
-	    const p = new Path('/api/surveys/:surveyId/:choice');
-
-	    console.log(req.body);
-
-	    _.chain(req.body)
-	      .map(({ email, url }) => {
-	        const match = p.test(new URL(url).pathname);
-	        if (match) {
-	          return { email, surveyId: match.surveyId, choice: match.choice };
-	        }
-	      })
-	      .compact()
-	      .uniqBy('email', 'surveyId')
-	      .each(({ surveyId, email, choice }) => {
-	        Survey.updateOne(
-	          {
-	            _id: surveyId,
-	            recipients: {
-	              $elemMatch: { email: email, responded: false }
-	            }
-	          },
-	          {
-	            $inc: { [choice]: 1 },
-	            $set: { 'recipients.$.responded': true },
-	            lastResponded: new Date()
-	          }
-	        ).exec();
-	      })
-	      .value();
-
-	    res.send({});
-	  	*/
-
 	
 
 	app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => { //check if user is logged in and has credits before proceeding
@@ -85,7 +52,7 @@ module.exports = app => {
 		//Send email here
 		const mailer = new Mailer(survey, surveyTemplate(survey));
 		
-		try{ //if anything goes wrong, catch the request and send back the response
+		try { //if anything goes wrong, catch the request and send back the response
 			await mailer.send();//asynch function. await is there to prevent future code from executing before mailer.send() is complete
 			await survey.save();//save survey to the database
 			req.user.credits -= 1; //take away 1 credit

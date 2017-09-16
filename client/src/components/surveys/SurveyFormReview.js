@@ -1,6 +1,7 @@
 //SurveyFormReview shows users their form inputs for review
 
 //functional component
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
