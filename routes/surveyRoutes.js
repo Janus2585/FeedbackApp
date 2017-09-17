@@ -13,6 +13,16 @@ const Survey = mongoose.model('surveys');
 mongoose.Promise = global.Promise;
 
 module.exports = app => {
+	//use requireLogin middleware to make sure the use is logged in
+	app.get('/api/surveys', requireLogin, async (req, res) => {
+		//reaching out to the database is asynchronous
+		const surveys = await Survey.find({ _user: req.user.id }) //find the user that is logged in in the database
+			//tell mongo/mongoose to exclude the list of recipients for each survey
+			//because this list can have thousands of recipients per survey
+			.select({ recipients: false });
+		res.send(surveys);
+	});
+
 	app.get('/api/surveys/:surveyId/:choice', (req, res) => {
 		res.send('Thanks for your feedback!');
 	});
