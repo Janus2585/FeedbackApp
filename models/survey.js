@@ -8,11 +8,11 @@ const surveySchema = new Schema({
 	body: String,
 	subject: String,
 	recipients: [RecipientSchema],
-	yesCount: { type: Number, default: 0 },
-	noCount: { type: Number, default: 0 },
+	yes: { type: Number, default: 0 },
+	no: { type: Number, default: 0 },
 	_user: { type: Schema.Types.ObjectId, ref: 'User' },//Schema.Types.ObjectId makes mongoose setup a relationship with a specific user. underscore indicates a reference field
 	dateSent: Date,
 	lastResponded: Date
 });
 
-mongoose.model('surveys', surveySchema);
+mongoose.model('surveys', surveySchema); 

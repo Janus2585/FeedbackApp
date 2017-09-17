@@ -26,13 +26,34 @@ module.exports = app => {
 		//return survey ID, email, and choice, disregarding records without surveyID and choice
 		//remove records that are undefined
 		//remove records with dupicate email and surveyId
-		const events = _.map(req.body, (event) => { // for every element in req.body
-			const pathname = new URL(event.url).pathname //extract just the route
-			const p = new Path('/api/surveys/:surveyId/:choice'); 
-			console.log(p.test(pathname));
-		})
 
+		//_.chain() is used to combine all the lodash helpers into one
+		const p = new Path('/api/surveys/:surveyId/:choice');
+		_.chain(req.body)
+			.map(({ email, url }) => { // for every element in req.body
+				const match = p.test(new URL(url).pathname); //returns object with surveyID and choice
+				if (match) {
+					return { email, surveyId: match.surveyId, choice: match.choice }; // return email, surveyID, and yes/no
+				}
+			})
+			.compact()//lodash helper that removes undefined events
+			.uniqBy('email', 'surveyId') //check for unique surveys
+			.each(({ surveyId, email, choice }) => { //run over every element in the events array
+				Survey.updateOne({ //update a record in the Survey collection
+					_id: surveyId, //the record must have this id. MongoDB syntax requires the key to be _id
+					recipients: {
+						$elemMatch: { email: email, responded: false } //the record must have these properties
+					}
+				}, {
+					$inc: { [choice]: 1 }, //choice can be yes or no. Increment the choice by 1
+					$set: { 'recipients.$.responded': true },//go in the subdocuments collection, find the recipient who was found using $elemMatch, set the responded property to true 
+					lastResponded: new Date()
+				}).exec();
+			})
+			.value(); //return the filtered survey list
+	
 
+		res.send({});
 	});
 	
 
