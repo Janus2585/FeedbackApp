@@ -12,7 +12,7 @@ class SurveyList extends Component {
 	renderSurveys() {
 		return this.props.surveys.reverse().map(survey => {//reverse the order of surveys so they display from newest to oldest
 			return (
-				<div className="card blue-grey darken-1" key={survey._id}>
+				<div className="card indigo lighten-2" key={survey._id}>
 					<div className="card-content white-text">
 						<span className="card-title">{survey.title}</span>
 						<p>

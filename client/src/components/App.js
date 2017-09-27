@@ -19,6 +19,8 @@ class App extends Component {
 		this.props.fetchUser();
 	}
 
+	
+
 	render() {
 		return (
 			//place browser routes, each specifies a relation between a possible address the user can visit, and a component to display

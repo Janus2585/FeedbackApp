@@ -27,7 +27,7 @@ class Header extends Component {
 	render() {
 		return(
 			<nav>
-			    <div className="nav-wrapper">
+			    <div className="nav-wrapper blue darken-2">
 			      <Link 
 			      	/*link to /surveys if this.props.auth is true, otherwise link to / */
 			      	to={this.props.auth ? '/surveys' : '/'}
