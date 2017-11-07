@@ -1,4 +1,7 @@
 body {
 	background-image: url(./img/lightbackround1.jpg);
 }
-	
+
+p {
+	font-style: bold;
+}

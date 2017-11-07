@@ -31,7 +31,8 @@ class Header extends Component {
 			      <Link 
 			      	/*link to /surveys if this.props.auth is true, otherwise link to / */
 			      	to={this.props.auth ? '/surveys' : '/'}
-			      	className="left brand-logo">Feedback App
+			      	className="left brand-logo"
+			      	style={{ marginLeft: '20px' }}>Feedback App
 			      </Link>
 			      <ul className="right">
 			        {this.renderContent()}
